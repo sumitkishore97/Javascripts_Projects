@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JS Stopwatch</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+ <style>
+  .btn
+  {
+   border-radius:20px;
+  }
+.row
+{
+  margin-right: 50px;
+}
+.container
+{
+  margin: 425px;
+}
+
+</style>
+</head>
+
+<body>
+ <div class="container mt-5" id="container_mt">
+  <div class="row">
+   <div class="col-md-6">
+    <div class="card">
+     <div class="card-header bg-secondary text-white text-center">
+      <h2>JS STOP WATCH</h2>
+      <h2>By Sumit Kishore</h2>
+     </div>
+     <div class="card-body bg-light text-center">
+      <h1 class="display-3">
+       <span id="min">00</span>
+       <span id="sec">00</span>
+       <span id="m-sec">00</span>
+      </h1>
+      <button class="btn btn-success" id="st-btn">START</button> 
+      <button class="btn btn-danger" id="sp-btn">STOP</button>
+      <button class="btn btn-warning" id="rs-btn">RESET</button>  
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+
+<!--Script Code-->
+<script>
+  let count=0;
+let minutes=0;
+let seconds=0;
+let milliSeconds=0;
+
+let timerRunning=false;
+
+let interval=null;
+
+
+//Getting Elements
+
+let startButton=document.querySelector('#st-btn');
+let stopButton=document.querySelector('#sp-btn');
+let resetButton=document.querySelector('#rs-btn');
+
+let minutesTag=document.querySelector('#min');
+let secondsTag=document.querySelector('#sec');
+let milliSecondsTag=document.querySelector('#m-sec');
+
+
+let startTimer=()=>
+{
+ count++;
+ //milliSecondsTag.innerText=count;
+
+ minutes=Math.floor((count/100)/60);
+ seconds=Math.floor((count/100)-(minutes*60));
+ milliSeconds=Math.floor(count-(seconds*100)-(minutes*6000));
+
+ minutesTag.innerText=leadingZero(minutes);
+ secondsTag.innerText=leadingZero(seconds);
+ milliSecondsTag.innerText=leadingZero(milliSeconds);
+}
+//startTimer();
+// setInterval(startTimer,10)
+
+//click on start button
+startButton.addEventListener('click',function()
+{
+ //setInterval(startTimer,10);
+ if(!timerRunning)
+ {
+  interval=setInterval(startTimer,10);
+  timerRunning=true;
+ }
+});
+
+//leading zero
+
+let leadingZero=(time)=>
+{
+ if(time<=9)
+ {
+  return "0"+time;
+ }
+ else
+ {
+  return time;
+ }
+}
+
+
+//click on stop button
+
+stopButton.addEventListener('click',function()
+{
+ //clearInterval(interval);
+ if(timerRunning)
+ {
+  clearInterval(interval);
+  timerRunning=false;
+ }
+});
+
+//click on reset button
+
+resetButton.addEventListener('click',function()
+{
+ clearInterval(interval);
+ minutes=0;
+ milliSeconds=0;
+ seconds=0;
+ count=0;
+
+ document.querySelector('#min').innerText='00';
+ document.querySelector('#sec').innerText='00';
+ document.querySelector('#m-sec').innerText='00';
+
+ timerRunning=false;
+});
+
+</script>
+</body>
+</html>
